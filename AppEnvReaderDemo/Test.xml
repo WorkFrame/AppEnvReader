@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configuration>
+	<startup>
+		<supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0"/>
+	</startup>
+	<appSettings>
+		<!--   Benutzeranwendung und konfigurierte Eigenschafteneinstellungen hier einfuegen.-->
+		<!--   Beispiel: <add key="settingName" value="settingValue"/> -->
+		<add key="MailTo" value="erik@reallyhuman.net"/>
+		<add key="DebugInfo" value="DEBUG|INFO|WARN|MILESTONE|ERROR|EXCEPTION"/>
+	</appSettings>
+</configuration>
