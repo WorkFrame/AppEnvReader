@@ -45,10 +45,10 @@ namespace NetEti.ApplicationEnvironment
         }
 
         /// <summary>
-        /// Returnt true, wenn der Key in der Aufzählung enthalten ist.
+        /// Liefert true, wenn der Key in der Aufzählung enthalten ist.
         /// </summary>
         /// <param name="key">Zu suchender Key.</param>
-        /// <returns></returns>
+        /// <returns>True, wenn der Key in der Aufzählung enthalten ist.</returns>
         public static bool ContainsKey(string key)
         {
             return AppSettingsRegistry._registeredKeyValuePairs.ContainsKey(key);
