@@ -39,11 +39,11 @@ namespace NetEti.ApplicationEnvironment
         /// <param name="key">Der Zugriffsschlüssel (string)</param>
         /// <param name="defaultValue">Das default-Ergebnis (string)</param>
         /// <returns>Der Ergebnis-String</returns>
-        public string GetStringValue(string key, string defaultValue)
+        public string? GetStringValue(string key, string? defaultValue)
         {
             List<string> alreadySearched = new List<string>();
-            string parameterSource = null;
-            string rtn = null;
+            string? parameterSource = null;
+            string? rtn = null;
             rtn = getStringValueReku(alreadySearched, key, ref parameterSource);
             if (rtn == null)
             {
@@ -63,8 +63,8 @@ namespace NetEti.ApplicationEnvironment
                         if (!alreadySearched.Contains(subKey))
                         {
                             alreadySearched.Add(subKey);
-                            string dummy = null;
-                            string subRtn = getStringValueReku(alreadySearched, subKey, ref dummy);
+                            string? dummy = null;
+                            string? subRtn = getStringValueReku(alreadySearched, subKey, ref dummy);
                             if (subRtn != null)
                             {
                                 rtn = Regex.Replace(rtn, @"%" + subKey + @"%", subRtn, RegexOptions.IgnoreCase);
@@ -90,11 +90,11 @@ namespace NetEti.ApplicationEnvironment
         /// <param name="key">Der Zugriffsschlüssel (string)</param>
         /// <param name="defaultValues">Das default-Ergebnis (string[])</param>
         /// <returns>Das Ergebnis-String-Array</returns>
-        public string[] GetStringValues(string key, string[] defaultValues)
+        public string?[]? GetStringValues(string key, string?[]? defaultValues)
         {
-            string[] rtn = null;
+            string?[]? rtn = null;
             IGetStringValue[] getters;
-            string parameterSource = null;
+            string? parameterSource = null;
             lock (AppEnvReader._lockMe)
             {
                 // zur weiteren Verarbeitung threadsafe in ein entkoppeltes Array kopieren.
@@ -122,22 +122,25 @@ namespace NetEti.ApplicationEnvironment
                 for (int i = 0; i < rtn.Length; i++)
                 {
                     List<string> alreadySearched = new List<string>();
-                    string actKey = rtn[i];
-                    MatchCollection alleTreffer;
-                    alleTreffer = _compiledPattern.Matches(actKey);
-                    for (int j = 0; j < alleTreffer.Count; j++)
+                    string? actKey = rtn[i];
+                    if (!String.IsNullOrEmpty(actKey))
                     {
-                        string subKey = alleTreffer[j].Groups[1].Value;
-                        if (!alreadySearched.Contains(subKey))
+                        MatchCollection alleTreffer;
+                        alleTreffer = _compiledPattern.Matches(actKey);
+                        for (int j = 0; j < alleTreffer.Count; j++)
                         {
-                            alreadySearched.Add(subKey);
-                            string dummy = null;
-                            string subRtn = getStringValueReku(alreadySearched, subKey, ref dummy);
-                            if (subRtn != null)
+                            string subKey = alleTreffer[j].Groups[1].Value;
+                            if (!alreadySearched.Contains(subKey))
                             {
-                                actKey = Regex.Replace(actKey, @"%" + subKey + @"%", subRtn, RegexOptions.IgnoreCase);
+                                alreadySearched.Add(subKey);
+                                string? dummy = null;
+                                string? subRtn = getStringValueReku(alreadySearched, subKey, ref dummy);
+                                if (subRtn != null)
+                                {
+                                    actKey = Regex.Replace(actKey, @"%" + subKey + @"%", subRtn, RegexOptions.IgnoreCase);
+                                }
+                                alreadySearched.Remove(subKey);
                             }
-                            alreadySearched.Remove(subKey);
                         }
                     }
                     rtn[i] = actKey;
@@ -271,7 +274,7 @@ namespace NetEti.ApplicationEnvironment
         public void RegisterKeyValue(string key, object value)
         {
             AppSettingsRegistry.RegisterKeyValue(key, value);
-            this.RememberParameterSource(key, "registered", value == null ? "null": value.ToString());
+            this.RememberParameterSource(key, "registered", value == null ? "null": value.ToString()?? "");
         }
 
         /// <summary>
@@ -295,10 +298,10 @@ namespace NetEti.ApplicationEnvironment
         /// <param name="defaultValue">Das default-Ergebnis vom Typ T</param>
         /// <returns>Wert zum key in den Rückgabe-Typ gecastet</returns>
         /// <exception cref="InvalidCastException">Typecast-Fehler</exception>
-        public T GetValue<T>(string key, T defaultValue)
+        public T? GetValue<T>(string key, T? defaultValue)
         {
-            string stringValue = GetStringValue(key, defaultValue.ToString());
-            if (stringValue.Equals(defaultValue.ToString()))
+            string? stringValue = GetStringValue(key, defaultValue?.ToString());
+            if (stringValue == null || stringValue.Equals(defaultValue?.ToString()))
             {
                 return defaultValue;
             }
@@ -334,7 +337,7 @@ namespace NetEti.ApplicationEnvironment
         /// <param name="defaultValues">Das default-Ergebnis vom Typ T[]</param>
         /// <returns>Wert-Array zum key in den Rückgabe-Typ gecastet</returns>
         /// <exception cref="InvalidCastException">Typecast-Fehler</exception>
-        public T[] GetValues<T>(string key, T[] defaultValues)
+        public T?[]? GetValues<T>(string key, T?[]? defaultValues)
         {
             throw new NotImplementedException();
         }
@@ -385,10 +388,10 @@ namespace NetEti.ApplicationEnvironment
         // Liefert genau einen Wert zu einem Key. Wenn es keinen Wert zu dem
         // Key gibt, wird defaultValue zurückgegeben.
         // Wildcards der Form %Name% werden, wenn möglich, rekursiv ersetzt.
-        private string getStringValueReku(List<string> alreadySearched, string key, ref string parameterSource)
+        private string? getStringValueReku(List<string> alreadySearched, string key, ref string? parameterSource)
         {
-            string rtn = null;
-            string lastGetterDescription = null;
+            string? rtn = null;
+            string? lastGetterDescription = null;
             if (AppSettingsRegistry.ContainsKey(key))
             {
                 rtn = AppSettingsRegistry.GetValue(key)?.ToString();
@@ -428,8 +431,8 @@ namespace NetEti.ApplicationEnvironment
                     if (!alreadySearched.Contains(subKey))
                     {
                         alreadySearched.Add(subKey);
-                        string dummy = null;
-                        string subRtn = getStringValueReku(alreadySearched, subKey, ref dummy);
+                        string? dummy = null;
+                        string? subRtn = getStringValueReku(alreadySearched, subKey, ref dummy);
                         if (subRtn != null)
                         {
                             rtn = Regex.Replace(rtn, @"%" + subKey + @"%", subRtn, RegexOptions.IgnoreCase);
@@ -442,9 +445,9 @@ namespace NetEti.ApplicationEnvironment
             return rtn;
         }
 
-        private void RememberParameterSource(string key, string parameterSource, string value)
+        private void RememberParameterSource(string key, string? parameterSource, string value)
         {
-            AppSettingsRegistry.RememberParameterSource(key, parameterSource, value);
+            AppSettingsRegistry.RememberParameterSource(key, parameterSource ?? "", value);
         }
 
         #endregion private members

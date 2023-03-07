@@ -17,12 +17,12 @@ namespace NetEti.DemoApplications
         /// <summary>
         /// Ein Beispiel-Wert aus der Kommandozeile
         /// </summary>
-        public string CommandLineParameter1 { get; private set; }
+        public string? CommandLineParameter { get; private set; }
 
         /// <summary>
         /// Ein Beispiel-Wert aus der app.config
         /// </summary>
-        public string AppSettingsExample { get; private set; }
+        public string? AppSettingsExample { get; private set; }
 
         /// <summary>
         /// Ein Beispiel-Wert aus der app.config
@@ -32,27 +32,27 @@ namespace NetEti.DemoApplications
         /// <summary>
         /// Der Windows-Domain-Name aus dem Environment
         /// </summary>
-        public string UserDomainName { get; private set; }
+        public string? UserDomainName { get; private set; }
 
         /// <summary>
         /// Die Programm-Version aus dem Environment
         /// </summary>
-        public string ProgramVersion { get; private set; }
+        public string? ProgramVersion { get; private set; }
 
         /// <summary>
         /// Ein Beispiel-Wert aus der registry
         /// </summary>
-        public string DotNetInstallRoot { get; private set; }
+        public string? DotNetInstallRoot { get; private set; }
 
         /// <summary>
         /// Ein Beispiel-Wert aus der test.xml
         /// </summary>
-        public string XMLExample { get; private set; }
+        public string? XMLExample { get; private set; }
 
         /// <summary>
         /// Ein Beispiel-Wert aus der test.ini
         /// </summary>
-        public string INIExample { get; private set; }
+        public string? INIExample { get; private set; }
 
         /// <summary>
         /// Prioritäten (der erste Treffer gewinnt):
@@ -73,25 +73,25 @@ namespace NetEti.DemoApplications
         #region private members
 
         // Implementiert IGetStringValue für Zugriffe auf die Kommandozeile.
-        private CommandLineAccess _commandLineAccessor;
+        private CommandLineAccess? _commandLineAccessor;
 
         // Implementiert IGetStringValue für Zugriffe auf die app.config.
-        private SettingsAccess _settingsAccessor { get; set; }
+        private SettingsAccess? _settingsAccessor { get; set; }
 
         // Implementiert IGetStringValue für Zugriffe auf das Environment.
-        private EnvAccess _envAccessor { get; set; }
+        private EnvAccess? _envAccessor { get; set; }
 
         // Implementiert IGetStringValue für Zugriffe auf die Registry.
-        private RegAccess _regAccessor { get; set; }
+        private RegAccess? _regAccessor { get; set; }
 
         // Implementiert IGetStringValue für Zugriffe auf XML-Dateien.
-        private XmlAccess _xmlAccessor { get; set; }
+        private XmlAccess? _xmlAccessor { get; set; }
 
         // Implementiert IGetStringValue für Zugriffe auf INI-Dateien.
-        private IniAccess _iniAccessor { get; set; }
+        private IniAccess? _iniAccessor { get; set; }
 
         // Verwaltet die verschiedenen Accessoren.
-        private AppEnvReader _appEnvReader;
+        private AppEnvReader? _appEnvReader;
 
         // Testpfad in die Registry
         private const string REGDotNetInstallRoot =
@@ -137,7 +137,7 @@ namespace NetEti.DemoApplications
                 MessageBox.Show(this._iniFilePath + " wurde nicht gefunden.");
             }
 
-            this.CommandLineParameter1 = this._appEnvReader.GetStringValue("CommandLineParameter1", "nicht gefunden");
+            this.CommandLineParameter = this._appEnvReader.GetStringValue("CommandLineParameter1", "nicht gefunden");
             this.AppSettingsExample = this._appEnvReader.GetStringValue("AppSettingsExample", "nicht gefunden");
             try
             {
@@ -166,8 +166,8 @@ namespace NetEti.DemoApplications
 
         private void fillListBox()
         {
-            this.listBox1.Items.Add("CommandLineParameter1: " + this.CommandLineParameter1);
-            this.listBox1.Items.Add("CommandLineParameter1: " + this.CommandLineParameter1);
+            this.listBox1.Items.Add("CommandLineParameter1: " + this.CommandLineParameter);
+            this.listBox1.Items.Add("CommandLineParameter1: " + this.CommandLineParameter);
             this.listBox1.Items.Add("AppSettingsExample: " + this.AppSettingsExample);
             this.listBox1.Items.Add("AppSettingsIntExample: " + this.AppSettingsIntExample.ToString());
             this.listBox1.Items.Add("Environment-USERDOMAINNAME: " + this.UserDomainName);

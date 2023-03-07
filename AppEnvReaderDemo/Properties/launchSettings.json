@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AppEnvReaderDemo": {
+      "commandName": "Project",
+      "commandLineArgs": "bla blubber bluff CommandLineParameter1=ufftata"
+    }
+  }
+}

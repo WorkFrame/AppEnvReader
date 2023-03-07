@@ -20,14 +20,14 @@ namespace NetEti.ApplicationEnvironment
         /// </summary>
         /// <param name="key">Der Key des zu registrierenden KeyValue-Paares.</param>
         /// <param name="value">Der Wert des zu registrierenden KeyValue-Paares.</param>
-        public static void RegisterKeyValue(string key, object value)
+        public static void RegisterKeyValue(string key, object? value)
         {
             if (AppSettingsRegistry._registeredKeyValuePairs.ContainsKey(key))
             {
-                object val;
+                object? val;
                 AppSettingsRegistry._registeredKeyValuePairs.TryRemove(key, out val);
             }
-            AppSettingsRegistry._registeredKeyValuePairs.TryAdd(key, value);
+            AppSettingsRegistry._registeredKeyValuePairs.TryAdd(key, value ?? "");
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace NetEti.ApplicationEnvironment
         {
             if (AppSettingsRegistry._registeredKeyValuePairs.ContainsKey(key))
             {
-                object val;
+                object? val;
                 AppSettingsRegistry._registeredKeyValuePairs.TryRemove(key, out val);
             }
         }
@@ -59,9 +59,9 @@ namespace NetEti.ApplicationEnvironment
         /// </summary>
         /// <param name="key">Key zum zu suchenden Wert.</param>
         /// <returns>Der Wert zum Key als object.</returns>
-        public static object GetValue(string key)
+        public static object? GetValue(string key)
         {
-            object val;
+            object? val;
             if (AppSettingsRegistry._registeredKeyValuePairs.TryGetValue(key, out val))
             {
                 return val;
