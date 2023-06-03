@@ -271,7 +271,7 @@ namespace NetEti.ApplicationEnvironment
         /// </summary>
         /// <param name="key">Der Key des zu registrierenden KeyValue-Paares.</param>
         /// <param name="value">Der Wert des zu registrierenden KeyValue-Paares.</param>
-        public void RegisterKeyValue(string key, object value)
+        public void RegisterKeyValue(string key, object? value)
         {
             AppSettingsRegistry.RegisterKeyValue(key, value);
             this.RememberParameterSource(key, "registered", value == null ? "null": value.ToString()?? "");

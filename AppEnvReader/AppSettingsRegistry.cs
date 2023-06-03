@@ -10,7 +10,7 @@ namespace NetEti.ApplicationEnvironment
     /// </summary>
     public static class AppSettingsRegistry
     {
-        private static ConcurrentDictionary<string, object> _registeredKeyValuePairs;
+        private static ConcurrentDictionary<string, object?> _registeredKeyValuePairs;
         private static ConcurrentDictionary<string, string> _parametersSources;
         private static object _lockingObject;
 
@@ -27,7 +27,7 @@ namespace NetEti.ApplicationEnvironment
                 object? val;
                 AppSettingsRegistry._registeredKeyValuePairs.TryRemove(key, out val);
             }
-            AppSettingsRegistry._registeredKeyValuePairs.TryAdd(key, value ?? "");
+            AppSettingsRegistry._registeredKeyValuePairs.TryAdd(key, value);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace NetEti.ApplicationEnvironment
 
         static AppSettingsRegistry()
         {
-            AppSettingsRegistry._registeredKeyValuePairs = new ConcurrentDictionary<string, object>();
+            AppSettingsRegistry._registeredKeyValuePairs = new ConcurrentDictionary<string, object?>();
             AppSettingsRegistry._parametersSources = new ConcurrentDictionary<string, string>();
             AppSettingsRegistry._lockingObject = new object();
         }
