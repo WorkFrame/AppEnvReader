@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using NetEti.Globals;
-using System;
 using System.Text;
 
 namespace NetEti.ApplicationEnvironment
@@ -97,11 +95,7 @@ namespace NetEti.ApplicationEnvironment
             string? parameterSource = null;
             lock (AppEnvReader._lockMe)
             {
-                // zur weiteren Verarbeitung threadsafe in ein entkoppeltes Array kopieren.
-                // In einer Multithreading-Umgebung können den _stringValueGetters Reader hinzugefügt
-                // werden, während diese Routine gerade läuft, was bei der direkten Verwendung von
-                // this._stringValueGetters zu der Exception führen würde, dass die Auflistung
-                // während der Verarbeitung geändert wurde.
+                // Zur weiteren Verarbeitung threadsafe in ein entkoppeltes Array kopieren.
                 // Alternative wäre, die gesamte Routine zu sperren. Das würde aber möglicherweise die
                 // gesamte Verarbeitung ausbremsen, weshalb ich hier lieber ein im Extremfall verloren
                 // gegangenes Value in Kauf nehme.
