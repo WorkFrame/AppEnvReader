@@ -89,7 +89,7 @@ namespace NetEti.ApplicationEnvironment
                     if (parameterSource == "registered")
                     {
                         string orgSource = AppSettingsRegistry._parametersSources[key].Split(new string[] { "Quelle: " }, StringSplitOptions.None)[1];
-                        paraInfo = "Wert: " + value + ", Quelle: " + orgSource + " (registered)";
+                        paraInfo = ("Wert: " + value + ", Quelle: " + orgSource).Replace(" (registered)", "") + " (registered)";
                     }
                     AppSettingsRegistry._parametersSources[key] = paraInfo;
                 }
