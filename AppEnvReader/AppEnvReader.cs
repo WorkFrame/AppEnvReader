@@ -347,7 +347,7 @@ namespace NetEti.ApplicationEnvironment
         private List<string> _defaultProperties;
 
         /// <summary>
-        /// Parameterloser Konstruktor, inizialisiert die Listen.
+        /// Parameterloser Konstruktor, initialisiert die Listen.
         /// </summary>
         public AppEnvReader()
         {
