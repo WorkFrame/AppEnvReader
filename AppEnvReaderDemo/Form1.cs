@@ -60,7 +60,7 @@ namespace NetEti.DemoApplications
         ///     2. SettingsAccess    - app.config-Einträge
         ///     3. EnvAccess         - Umgebungsvariablen
         ///     4. RegAccess         - Registry-Einträge
-        ///     5. XMLAccess         - eine test.xml
+        ///     5. UserSettingsAccess- eine test.xml
         ///     6. INIAccess         - eine test.Ini
         /// </summary>
         public Form1()
@@ -84,8 +84,8 @@ namespace NetEti.DemoApplications
         // Implementiert IGetStringValue für Zugriffe auf die Registry.
         private RegAccess? _regAccessor { get; set; }
 
-        // Implementiert IGetStringValue für Zugriffe auf XML-Dateien.
-        private XmlAccess? _xmlAccessor { get; set; }
+        // Implementiert IGetStringValue für Zugriffe auf XML- oder Json-Dateien.
+        private UserSettingsAccess? _userSettingsAccessor { get; set; }
 
         // Implementiert IGetStringValue für Zugriffe auf INI-Dateien.
         private IniAccess? _iniAccessor { get; set; }
@@ -119,8 +119,8 @@ namespace NetEti.DemoApplications
             this._appEnvReader.RegisterStringValueGetter(this._regAccessor);
             try
             {
-                this._xmlAccessor = new XmlAccess(this._xmlFilePath);
-                this._appEnvReader.RegisterStringValueGetter(this._xmlAccessor);
+                this._userSettingsAccessor = new UserSettingsAccess(this._xmlFilePath);
+                this._appEnvReader.RegisterStringValueGetter(this._userSettingsAccessor);
             }
             catch (Exception)
             {
